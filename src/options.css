@@ -1,0 +1,5 @@
+@import 'css/bootstrap.min.css';
+
+.container {
+  max-width: 720px;
+}

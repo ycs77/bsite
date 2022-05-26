@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Options</title>
+    <link rel="stylesheet" href="options.css">
+  </head>
+
+  <body>
+    <div class="container py-5">
+      <h1 class="text-center">BSite</h1>
+
+      <form id="login" class="d-none mt-4">
+        <div class="input-group">
+          <input type="password" id="password" class="form-control">
+          <button class="btn btn-primary" type="submit">確認</button>
+        </div>
+      </form>
+
+      <div id="dashboard" class="d-none mt-4">
+        <div>
+          <button id="logout" class="btn btn-secondary">登出</button>
+        </div>
+
+        <form id="add-block-url" class="mt-3">
+          <div class="input-group">
+            <input type="text" id="block-url" class="form-control" placeholder="輸入封鎖網址" autocomplete="off">
+            <button class="btn btn-primary" type="submit">新增</button>
+          </div>
+        </form>
+
+        <ul id="block-urls" class="list-group mt-3"></ul>
+      </div>
+    </div>
+    <script src="options.ts"></script>
+  </body>
+</html>

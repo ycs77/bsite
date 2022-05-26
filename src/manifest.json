@@ -1,0 +1,19 @@
+{
+  "name": "BSite",
+  "description": "Block the site",
+  "version": "0.1",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "background.ts"
+  },
+  "permissions": [
+    "activeTab",
+    "declarativeNetRequest",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "*://*/*"
+  ],
+  "options_page": "options.html"
+}
