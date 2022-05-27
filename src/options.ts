@@ -10,7 +10,7 @@ interface UpdateBlockRulesOptions {
   removeUrls?: string[]
 }
 
-function h(content: any) {
+function e(content: any) {
   return String(content).replace(/[\u00A0-\u9999<>\&]/g, i => '&#'+i.charCodeAt(0)+';')
 }
 
@@ -29,8 +29,8 @@ async function updateBlockUrls() {
   blockUrlsListEl.textContent = ''
   blockUrlsListEl.innerHTML = rules.map(rule =>
     `<li class="list-group-item d-flex justify-content-between align-items-center">
-      ${h(rule.condition.urlFilter || '')}
-      <button type="button" class="btn btn-sm btn-danger" data-id="${h(rule.id)}" data-url="${h(rule.condition.urlFilter || '')}">刪除</button>
+      ${e(rule.condition.urlFilter || '')}
+      <button type="button" class="btn btn-sm btn-danger" data-id="${e(rule.id)}" data-url="${e(rule.condition.urlFilter || '')}">刪除</button>
     </li>`
   , '').join('')
   blockUrlsListEl.removeEventListener('click', deleteBlockUrl)
@@ -46,6 +46,16 @@ chrome.storage.local.get('is_login', ({ is_login }) => {
   }
 })
 
+async function setPasswordPlaceholder() {
+  chrome.storage.sync.get('password', async data => {
+    const password: string = data.password
+    const passwordEl = document.getElementById('password') as HTMLInputElement
+    passwordEl.placeholder = password ? '' : '設定密碼'
+  })
+}
+
+setPasswordPlaceholder()
+
 loginFormEl.addEventListener('submit', e => {
   e.preventDefault()
 
@@ -59,16 +69,18 @@ loginFormEl.addEventListener('submit', e => {
       loginFormEl.classList.add('d-none')
       dashboardEl.classList.remove('d-none')
       updateBlockUrls()
-      chrome.storage.local.set({ is_login: true })
+      await chrome.storage.local.set({ is_login: true })
+      await setPasswordPlaceholder()
     }
     passwordEl.value = ''
   })
 })
 
-logoutEl.addEventListener('click', () => {
+logoutEl.addEventListener('click', async () => {
   loginFormEl.classList.remove('d-none')
   dashboardEl.classList.add('d-none')
   chrome.storage.local.set({ is_login: false })
+  await setPasswordPlaceholder()
 })
 
 addBlockUrlFormEl.addEventListener('submit', async e => {
